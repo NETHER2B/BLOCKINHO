@@ -6,15 +6,17 @@ public class ComandosBasicos : MonoBehaviour
 {
     public int velocidade;
     private Rigidbody2D PedraFOFA;
-    public float forcaPulo;
+    public float ForcaPulo;
 
     public bool sensor;
-    public Transform posicaoSensor;
-    public LayerMask layerChao; 
+    public Transform PosicaoSensor;
+    public LayerMask LayerChao;
+    private anim;
 
     // Start is called before the first frame update
     void Start()
     {
+        PedraFOFA = GetComponent<Animator>();
         PedraFOFA = GetComponent<Rigidbody2D>();
     }
 
@@ -25,9 +27,11 @@ public class ComandosBasicos : MonoBehaviour
 
         PedraFOFA.velocity = new Vector2(movimentox * velocidade, PedraFOFA.velocity.y);
 
+        Animation.SetInteger("walk", (int)movimentox);
+
         if (Input.GetButtonDown("Jump") && sensor == true)
         {
-            PedraFOFA.AddForce(new Vector2(0, forcaPulo));
+            PedraFOFA.AddForce(new Vector2(0, ForcaPulo));
         }
     }
 
@@ -35,7 +39,7 @@ public class ComandosBasicos : MonoBehaviour
 
     private void FixedUpdate()
     {
-        sensor = Physics2D.OverlapCircle(posicaoSensor.position, 0.1f, layerChao);
+        sensor = Physics2D.OverlapCircle(PosicaoSensor.position, 0.1f, LayerChao);
     }
 }
 
